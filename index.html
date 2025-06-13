@@ -1,0 +1,1404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuralEdge - AI Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #ffffff;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: #667eea;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: #ffffff;
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 40%, rgba(102, 126, 234, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 60%, rgba(118, 75, 162, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 50%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.8);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 6rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .service-card:hover::before {
+            opacity: 1;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(102, 126, 234, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .service-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #ffffff;
+            position: relative;
+            z-index: 2;
+        }
+
+        .service-card p {
+            color: rgba(255, 255, 255, 0.7);
+            line-height: 1.6;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* About Section */
+        .about {
+            padding: 6rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .about-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            margin-bottom: 2rem;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #667eea;
+            display: block;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        /* Workflows Section */
+        .workflows {
+            padding: 6rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .workflows-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .workflow-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-button {
+            padding: 0.8rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 25px;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .tab-button:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            color: #ffffff;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: transparent;
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .workflow-content {
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .workflow-content.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .workflow-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .workflow-diagram {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .workflow-step {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            min-width: 150px;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .workflow-step:hover {
+            background: rgba(102, 126, 234, 0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+            transform: scale(1.05);
+        }
+
+        .workflow-step::before {
+            content: attr(data-step);
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .step-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .workflow-arrow {
+            color: #667eea;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+
+        .workflow-details h3 {
+            font-size: 2rem;
+            color: #ffffff;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, #667eea 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .workflow-details p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .workflow-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .metric-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .workflow-features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .feature {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.95rem;
+            padding: 0.25rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .workflow-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .workflow-diagram {
+                order: 2;
+            }
+
+            .workflow-details {
+                order: 1;
+            }
+
+            .workflow-metrics {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-features {
+                grid-template-columns: 1fr;
+            }
+
+            .workflow-step {
+                min-width: 120px;
+                padding: 1rem;
+            }
+
+            .step-icon {
+                font-size: 1.5rem;
+            }
+
+            .workflow-details h3 {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-form {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .contact-form input,
+        .contact-form textarea {
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #ffffff;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .contact-form input::placeholder,
+        .contact-form textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .contact-form textarea {
+            grid-column: 1 / -1;
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 80px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 80px);
+                background: rgba(15, 15, 35, 0.98);
+                flex-direction: column;
+                justify-content: start;
+                align-items: center;
+                padding-top: 2rem;
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+
+            .about-container {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .form-group {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <div class="logo">NeuralEdge AI Solutions</div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#workflows">AI Agents</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Transform Your Business with AI</h1>
+            <p>Unlock the power of artificial intelligence with our cutting-edge solutions. From machine learning to natural language processing, we deliver AI that drives results.</p>
+            <a href="#contact" class="cta-button">Get Started Today</a>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <h2 class="section-title fade-in">Our AI Solutions</h2>
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-icon">🧠</div>
+                <h3>Machine Learning</h3>
+                <p>Custom ML models that learn from your data to predict trends, automate decisions, and optimize your business processes.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-icon">💬</div>
+                <h3>Natural Language Processing</h3>
+                <p>Advanced NLP solutions for chatbots, sentiment analysis, document processing, and intelligent text understanding.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-icon">👁️</div>
+                <h3>Computer Vision</h3>
+                <p>Image recognition, object detection, and visual analysis to extract insights from visual data and automate visual tasks.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-icon">🔮</div>
+                <h3>Predictive Analytics</h3>
+                <p>Forecast future trends and behaviors using advanced AI algorithms to make data-driven strategic decisions.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-icon">🤖</div>
+                <h3>Process Automation</h3>
+                <p>Intelligent automation solutions that streamline workflows and reduce manual tasks across your organization.</p>
+            </div>
+            <div class="service-card fade-in">
+                <div class="service-icon">📊</div>
+                <h3>Data Intelligence</h3>
+                <p>Transform raw data into actionable insights with AI-powered analytics and business intelligence solutions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Agents Workflow Section -->
+    <section id="workflows" class="workflows">
+        <div class="workflows-container">
+            <h2 class="section-title fade-in">AI Agents in Action</h2>
+            <p class="section-subtitle fade-in">Discover how intelligent agents automate complex workflows and transform business operations</p>
+            
+            <div class="workflow-tabs fade-in">
+                <button class="tab-button active" data-tab="customer-service">Customer Service</button>
+                <button class="tab-button" data-tab="sales-automation">Sales Automation</button>
+                <button class="tab-button" data-tab="data-processing">Data Processing</button>
+                <button class="tab-button" data-tab="content-creation">Content Creation</button>
+            </div>
+
+            <!-- Customer Service Workflow -->
+            <div class="workflow-content active" id="customer-service">
+                <div class="workflow-grid">
+                    <div class="workflow-visual">
+                        <div class="workflow-diagram">
+                            <div class="workflow-step" data-step="1">
+                                <div class="step-icon">📧</div>
+                                <div class="step-title">Email Received</div>
+                                <div class="step-desc">Customer inquiry arrives</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="2">
+                                <div class="step-icon">🧠</div>
+                                <div class="step-title">AI Analysis</div>
+                                <div class="step-desc">Intent & sentiment detected</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="3">
+                                <div class="step-icon">🔍</div>
+                                <div class="step-title">Knowledge Search</div>
+                                <div class="step-desc">Relevant info retrieved</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="4">
+                                <div class="step-icon">✍️</div>
+                                <div class="step-title">Response Generated</div>
+                                <div class="step-desc">Personalized reply created</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="5">
+                                <div class="step-icon">📤</div>
+                                <div class="step-title">Auto-Response</div>
+                                <div class="step-desc">Instant customer reply</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-details">
+                        <h3>Intelligent Customer Service Agent</h3>
+                        <p>Our AI agent handles customer inquiries with human-like understanding and response quality.</p>
+                        <div class="workflow-metrics">
+                            <div class="metric">
+                                <span class="metric-value">90%</span>
+                                <span class="metric-label">Queries Resolved</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">< 30s</span>
+                                <span class="metric-label">Response Time</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">24/7</span>
+                                <span class="metric-label">Availability</span>
+                            </div>
+                        </div>
+                        <div class="workflow-features">
+                            <div class="feature">✅ Multi-language support</div>
+                            <div class="feature">✅ Sentiment analysis</div>
+                            <div class="feature">✅ Escalation management</div>
+                            <div class="feature">✅ Learning from interactions</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sales Automation Workflow -->
+            <div class="workflow-content" id="sales-automation">
+                <div class="workflow-grid">
+                    <div class="workflow-visual">
+                        <div class="workflow-diagram">
+                            <div class="workflow-step" data-step="1">
+                                <div class="step-icon">👤</div>
+                                <div class="step-title">Lead Capture</div>
+                                <div class="step-desc">Prospect identified</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="2">
+                                <div class="step-icon">📊</div>
+                                <div class="step-title">Lead Scoring</div>
+                                <div class="step-desc">AI evaluates potential</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="3">
+                                <div class="step-icon">🎯</div>
+                                <div class="step-title">Personalization</div>
+                                <div class="step-desc">Tailored approach crafted</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="4">
+                                <div class="step-icon">📧</div>
+                                <div class="step-title">Outreach</div>
+                                <div class="step-desc">Automated follow-up</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="5">
+                                <div class="step-icon">📈</div>
+                                <div class="step-title">Conversion</div>
+                                <div class="step-desc">Deal progression</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-details">
+                        <h3>AI-Powered Sales Assistant</h3>
+                        <p>Automate lead qualification, personalized outreach, and follow-up sequences to maximize conversion rates.</p>
+                        <div class="workflow-metrics">
+                            <div class="metric">
+                                <span class="metric-value">3x</span>
+                                <span class="metric-label">Lead Conversion</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">80%</span>
+                                <span class="metric-label">Time Saved</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">95%</span>
+                                <span class="metric-label">Follow-up Rate</span>
+                            </div>
+                        </div>
+                        <div class="workflow-features">
+                            <div class="feature">✅ Predictive lead scoring</div>
+                            <div class="feature">✅ Dynamic email sequences</div>
+                            <div class="feature">✅ CRM integration</div>
+                            <div class="feature">✅ Performance analytics</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Processing Workflow -->
+            <div class="workflow-content" id="data-processing">
+                <div class="workflow-grid">
+                    <div class="workflow-visual">
+                        <div class="workflow-diagram">
+                            <div class="workflow-step" data-step="1">
+                                <div class="step-icon">📁</div>
+                                <div class="step-title">Data Ingestion</div>
+                                <div class="step-desc">Multiple sources</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="2">
+                                <div class="step-icon">🧹</div>
+                                <div class="step-title">Data Cleaning</div>
+                                <div class="step-desc">Quality validation</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="3">
+                                <div class="step-icon">🔄</div>
+                                <div class="step-title">Transformation</div>
+                                <div class="step-desc">Format standardization</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="4">
+                                <div class="step-icon">📊</div>
+                                <div class="step-title">Analysis</div>
+                                <div class="step-desc">Pattern recognition</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="5">
+                                <div class="step-icon">📈</div>
+                                <div class="step-title">Insights</div>
+                                <div class="step-desc">Actionable reports</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-details">
+                        <h3>Automated Data Processing Pipeline</h3>
+                        <p>Transform raw data into actionable insights with our intelligent data processing agents.</p>
+                        <div class="workflow-metrics">
+                            <div class="metric">
+                                <span class="metric-value">10x</span>
+                                <span class="metric-label">Processing Speed</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">99.9%</span>
+                                <span class="metric-label">Accuracy Rate</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">24/7</span>
+                                <span class="metric-label">Operation</span>
+                            </div>
+                        </div>
+                        <div class="workflow-features">
+                            <div class="feature">✅ Real-time processing</div>
+                            <div class="feature">✅ Anomaly detection</div>
+                            <div class="feature">✅ Automated reporting</div>
+                            <div class="feature">✅ Scalable architecture</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Creation Workflow -->
+            <div class="workflow-content" id="content-creation">
+                <div class="workflow-grid">
+                    <div class="workflow-visual">
+                        <div class="workflow-diagram">
+                            <div class="workflow-step" data-step="1">
+                                <div class="step-icon">💡</div>
+                                <div class="step-title">Brief Analysis</div>
+                                <div class="step-desc">Requirements parsed</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="2">
+                                <div class="step-icon">🔍</div>
+                                <div class="step-title">Research</div>
+                                <div class="step-desc">Topic exploration</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="3">
+                                <div class="step-icon">📝</div>
+                                <div class="step-title">Content Generation</div>
+                                <div class="step-desc">AI writing</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="4">
+                                <div class="step-icon">✅</div>
+                                <div class="step-title">Quality Check</div>
+                                <div class="step-desc">Automated review</div>
+                            </div>
+                            <div class="workflow-arrow">↓</div>
+                            <div class="workflow-step" data-step="5">
+                                <div class="step-icon">🚀</div>
+                                <div class="step-title">Distribution</div>
+                                <div class="step-desc">Multi-channel publish</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="workflow-details">
+                        <h3>Intelligent Content Creation Agent</h3>
+                        <p>Generate high-quality, brand-consistent content across multiple formats and channels automatically.</p>
+                        <div class="workflow-metrics">
+                            <div class="metric">
+                                <span class="metric-value">5x</span>
+                                <span class="metric-label">Content Output</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">85%</span>
+                                <span class="metric-label">Time Reduction</span>
+                            </div>
+                            <div class="metric">
+                                <span class="metric-value">100%</span>
+                                <span class="metric-label">Brand Consistency</span>
+                            </div>
+                        </div>
+                        <div class="workflow-features">
+                            <div class="feature">✅ Multi-format content</div>
+                            <div class="feature">✅ SEO optimization</div>
+                            <div class="feature">✅ Brand voice matching</div>
+                            <div class="feature">✅ Performance tracking</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="about-container">
+            <div class="about-content fade-in">
+                <h2>Leading AI Innovation</h2>
+                <p>We are a team of AI specialists, data scientists, and engineers passionate about transforming businesses through artificial intelligence. Our mission is to make advanced AI accessible and practical for organizations of all sizes.</p>
+                <p>With years of experience in machine learning, deep learning, and AI implementation, we deliver solutions that not only meet your current needs but also scale with your future growth.</p>
+                <div class="stats">
+                    <div class="stat fade-in">
+                        <span class="stat-number">50+</span>
+                        <span class="stat-label">Projects Completed</span>
+                    </div>
+                    
+                    <div class="stat fade-in">
+                        <span class="stat-number">98%</span>
+                        <span class="stat-label">Success Rate</span>
+                    </div>
+                    <div class="stat fade-in">
+                        <span class="stat-number">24/7</span>
+                        <span class="stat-label">Support</span>
+                    </div>
+                </div>
+            </div>
+            <div class="about-visual fade-in">
+                <div style="text-align: center; font-size: 8rem; opacity: 0.1;">🚀</div>
+            </div>
+        </div>
+    </section>
+
+<!-- Contact Section -->
+    <section id="contact" class="contact">
+        <h2 class="section-title fade-in">Ready to Get Started?</h2>
+        <p class="fade-in" style="color: rgba(255, 255, 255, 0.8); margin-bottom: 2rem;">Let's discuss how AI can transform your business. Reach out to our team for a free consultation.</p>
+        <form class="contact-form fade-in">
+            <div class="form-group">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+            </div>
+            <input type="text" placeholder="Company Name">
+            <textarea placeholder="Tell us about your project and how we can help..." required></textarea>
+            <button type="submit" class="cta-button" style="justify-self: center; margin-top: 1rem;">Send Message</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    
+<footer>
+  <p>&copy; 2025 NeuralEdge AI Solutions Technologies. All rights reserved.</p>
+  <p style="margin-top: 0.5rem;">
+    <a href="privacy-policy-updated.html" style="color: #a5b4fc; margin-right: 1rem;" target="_blank">Privacy Policy</a>
+    <a href="terms-of-service.html" style="color: #a5b4fc;" target="_blank">Terms of Service</a>
+  </p>
+</footer>
+
+
+    <script>
+        // Mobile Navigation Toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Navbar background change on scroll
+        window.addEventListener('scroll', () => {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 100) {
+                nav.style.background = 'rgba(15, 15, 35, 0.98)';
+            } else {
+                nav.style.background = 'rgba(15, 15, 35, 0.95)';
+            }
+        });
+
+        // Scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Workflow tabs functionality
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const workflowContents = document.querySelectorAll('.workflow-content');
+
+        tabButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all tabs and contents
+                tabButtons.forEach(btn => btn.classList.remove('active'));
+                workflowContents.forEach(content => content.classList.remove('active'));
+
+                // Add active class to clicked tab
+                button.classList.add('active');
+
+                // Show corresponding content
+                const targetTab = button.getAttribute('data-tab');
+                const targetContent = document.getElementById(targetTab);
+                if (targetContent) {
+                    targetContent.classList.add('active');
+                }
+            });
+        });
+
+        // Animate workflow steps on scroll
+        const workflowObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const steps = entry.target.querySelectorAll('.workflow-step');
+                    steps.forEach((step, index) => {
+                        setTimeout(() => {
+                            step.style.animation = `fadeInUp 0.6s ease-out forwards`;
+                            step.style.animationDelay = `${index * 0.1}s`;
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.workflow-diagram').forEach(diagram => {
+            workflowObserver.observe(diagram);
+        });
+
+
+        // Form submission with email routing
+        document.querySelector('.contact-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const button = e.target.querySelector('button');
+            const originalText = button.textContent;
+            
+            // Show loading state
+            button.textContent = 'Sending...';
+            button.disabled = true;
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name') || 'Not provided',
+                email: formData.get('email') || 'Not provided',
+                company: formData.get('company') || 'Not provided',
+                message: formData.get('message') || 'No message provided'
+            };
+            
+            EMAIL_JS_API_KEY = os.getenv("EMAIL_JS_API_KEY")
+
+            try {                
+				 const response = await emailjs.send(
+                     'service_hqkfo4g',
+                     'template_fxhu8u9',
+                    {
+                        from_name: data.name,
+                        from_email: data.email,
+                        company: data.company,
+                        message: data.message,
+                        to_email: 'bethikmayie@gmail.com'
+                    },
+                    EMAIL_JS_API_KEY
+                );
+
+                // Show success notification
+                showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+
+                // Option 2: Formspree (Alternative service)
+                // Replace 'YOUR_FORM_ID' with your actual Formspree form ID
+               /* const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });*/
+                
+                if (response.ok) {
+                    // Success
+                    button.textContent = 'Message Sent!';
+                    button.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+                    e.target.reset();
+                    
+                    // Show success notification
+                    showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                } else {
+                    throw new Error('Failed to send message');
+                }
+                
+            } catch (error) {
+                console.error('Error sending email:', error);
+                
+                // Fallback: Open default email client
+                const subject = `Contact Form Submission from ${data.name}`;
+                const body = `Name: ${data.name}%0D%0AEmail: ${data.email}%0D%0ACompany: ${data.company}%0D%0A%0D%0AMessage:%0D%0A${encodeURIComponent(data.message)}`;
+                const mailtoLink = `mailto:your-email@domain.com?subject=${encodeURIComponent(subject)}&body=${body}`;
+                
+                window.location.href = mailtoLink;
+                
+                button.textContent = 'Opening Email Client...';
+                showNotification('Opening your email client. Please send the pre-filled email.', 'info');
+            }
+            
+            // Reset button after 3 seconds
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                button.disabled = false;
+            }, 3000);
+        });
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <span>${message}</span>
+                    <button class="notification-close">&times;</button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+            
+            // Manual close
+            notification.querySelector('.notification-close').addEventListener('click', () => {
+                notification.remove();
+            });
+        }
+
+        // Add some interactive elements
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-10px) scale(1.02)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+    </script>
+
+    <div id="chatbot" style="position: fixed; bottom: 20px; right: 20px; z-index: 9999;">
+        <button id="chatToggle" style="padding: 10px 20px; background: #667eea; color: white; border: none; border-radius: 10px;">💬 AI Chat</button>
+        <div id="chatWindow" style="display:none; width: 320px; height: 420px; background: #fff; color: #000; border-radius: 10px; margin-top: 10px; padding: 10px; overflow-y: auto; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
+            <div id="chatLog" style="height: 350px; overflow-y: auto;">
+                <p><strong>NeuralEdge AI Solutions:</strong> Hi there! I'm your AI assistant. How can I help you today?</p>
+            </div>
+        <input id="userInput" type="text" placeholder="Ask me anything..." style="width: 100%; padding: 8px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc;">
+    </div>
+</div>
+
+<script>
+    const chatToggle = document.getElementById('chatToggle');
+    const chatWindow = document.getElementById('chatWindow');
+    const userInput = document.getElementById('userInput');
+    const chatLog = document.getElementById('chatLog');
+
+    chatToggle.onclick = () => {
+        chatWindow.style.display = chatWindow.style.display === 'none' ? 'block' : 'none';
+    };
+
+    userInput.addEventListener('keypress', async function (e) {
+        if (e.key === 'Enter') {
+            const userText = userInput.value.trim();
+            if (userText) {
+                const userMsg = document.createElement('p');
+                userMsg.innerHTML = `<strong>You:</strong> ${userText}`;
+                chatLog.appendChild(userMsg);
+
+                const aiReply = document.createElement('p');
+                aiReply.innerHTML = `<strong>NeuralEdge AI Solutions:</strong> Thinking...`;
+                chatLog.appendChild(aiReply);
+                chatLog.scrollTop = chatLog.scrollHeight;
+
+                const reply = await generateAIReply(userText);
+                aiReply.innerHTML = `<strong>NeuralEdge AI Solutions:</strong> ${reply}`;
+                chatLog.scrollTop = chatLog.scrollHeight;
+
+                userInput.value = '';
+            }
+        }
+    });
+
+    HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+    async function generateAIReply(input) {
+        const response = await fetch("https://api-inference.huggingface.co/models/gpt2", {
+            method: "POST",
+            headers: {
+                "Authorization": HUGGINGFACE_API_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ inputs: input, options: { wait_for_model: true } })
+        });
+
+        const data = await response.json();
+        return data[0]?.generated_text?.substring(input.length).trim() || "Sorry, I couldn't generate a reply.";
+    }
+</script>
+
+<script>
+    window.onload = function () {
+      emailjs.init(EMAIL_JS_API_KEY);
+
+      document.getElementById("contact-form").addEventListener("submit", function (e) {
+        e.preventDefault();
+        const form = this;
+        const button = form.querySelector("button");
+        const originalText = button.textContent;
+
+        button.textContent = "Sending...";
+        button.disabled = true;
+
+        emailjs.sendForm("service_hqkfo4g", "template_fxhu8u9", form)
+          .then(() => {
+            alert("Message sent successfully! We'll get back to you soon.");
+            button.textContent = "Message Sent!";
+            button.style.background = "linear-gradient(135deg, #10b981 0%, #059669 100%)";
+            form.reset();
+          })
+          .catch((error) => {
+            console.error("Email send error:", error);
+            alert("Failed to send message. Please try again later.");
+            button.textContent = originalText;
+          })
+          .finally(() => {
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.style.background = "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+              button.disabled = false;
+            }, 3000);
+          });
+      });
+    };
+  </script>
+
+</body>
+</html>
+
+
